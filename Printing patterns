@@ -12,6 +12,9 @@ do
  echo
 done
 
+
+Note: use bash filename.sh
+
 OUTPUT
 
 Enter the Limit 
