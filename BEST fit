@@ -1,89 +1,54 @@
+Aim:- To implement Best fit Memory management scheme
+Algorithm:-
+1.Get no. of Processes and no. of blocks.
+2.After that get the size of each block and process requests.
+3.Then select the best memory block that can be allocated using the above definition.
+4.Display the processes with the blocks that are allocated to a respective process.
+5.Value of Fragmentation is optional to display to keep track of wasted memory.
+6.Stop.
+Program:-
 #include<stdio.h>
 void main()
 {
-int f3[20],f2[20],r[20],r1[20],ms,bod,sb[20],nsb[20],nsb1[20],np,sp[20];
-int f[20],i,j,l,k,z[20],s=0;
-printf("enter the memory size:");
-scanf("%d",&ms);
-printf("\n enter the number of block of division of memory:");
-scanf("%d",&bod);
-printf("enter the size of each block:");
-for(i=1;i<=bod;i++)
-{
-printf("\nBlock[%d]:",i);
-scanf("%d",&sb[i]);
-f[i]=1;
-f2[i]=1;
-f3[i]=1;
-r[i]=1;
-r1[i]=1;
-z[i]=sb[i];
-}
-printf("\nenter the number of process:");
+int fragment[20],b[20],p[20],i,j,nb,np,temp,lowest=9999;
+static int barray[20],parray[20];
+printf("\n\t\t\tMemory Management Scheme - Best Fit");
+printf("\nEnter the number of blocks:");
+scanf("%d",&nb);
+printf("Enter the number of processes:");
 scanf("%d",&np);
-printf("\nenter the size of each process:");
+printf("\nEnter the size of the blocks:-\n");
+for(i=1;i<=nb;i++)
+ {
+printf("Block no.%d:",i);
+ scanf("%d",&b[i]);
+ }
+printf("\nEnter the size of the processes :-\n");
+for(i=1;i<=np;i++)
+ {
+ printf("Process no.%d:",i);
+ scanf("%d",&p[i]);
+ }
 for(i=1;i<=np;i++)
 {
-printf("\nprocess[%d]:",i);
-scanf("%d",&sp[i]);
-}
-
-
-
-if(s==bod)
-printf("\n No Block is left unallocated");
-s=0;
-printf("\n\n BEST FIT ");
-printf("\n   **** ");
-for(i=2;i<=bod;i++)
+for(j=1;j<=nb;j++)
 {
-for(j=1;j<i;j++)
+if(barray[j]!=1)
 {
-if(sb[i]>=sb[j])
-r[i]++;
-else
-r[j]++;
-}
-}
-for(i=1;i<=bod;i++)
+temp=b[j]-p[i];
+if(temp>=0)
+if(lowest>temp)
 {
-nsb[r[i]]=sb[i];
-z[r[i]]=sb[i];
-}
-for(i=1;i<=np;i++)
-{
-for(j=1;j<=bod;j++)
-{
-if((nsb[j]>=sp[i]) && (f2[j]!=0))
-{
-for(k=1;k<=bod;k++)
-{
-if(r[k]==j)
-l=k;
-}
-printf("\nProcess p[%d] is allocated to Block[%d]",i,l);
-f2[j]=0;
-z[j]=nsb[j]-sp[i];
-s++;
-goto l2;
+parray[i]=j;
+lowest=temp;
 }
 }
-printf("\n process p[%d] cannot be allocated",i);
-l2:
-printf(" ");
 }
-printf("\n free space in each block \n");
-printf("   ******** \n");
-for(i=1;i<=bod;i++)
-printf("\nBlock [%d]: free space =%d",i,z[r[i]]);
-
-printf("\n\nUnallocated Blocks");
-printf(" \n ******");
-for(i=1;i<=bod;i++)
-{
-if(f2[r[i]]!=0)
-{
-printf("\n Block [%d] unallocated",i);
+fragment[i]=lowest;
+barray[parray[i]]=1;
+lowest=10000;
 }
-}
+printf("\nProcess_no\tProcess_size\tBlock_no\tBlock_size\tFragment");
+for(i=1;i<=np && parray[i]!=0;i++)
+printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,p[i],parray[i],b[parray[i]],fragment[i]);
 }
