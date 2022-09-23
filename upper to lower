@@ -5,5 +5,5 @@ echo $i
 j=`echo $i | tr '[A-Z]' '[a-z]'`
 echo "After converting the filename is : "
 echo $j
-mv $i$j
+mv $i $j
 done
